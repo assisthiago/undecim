@@ -2,6 +2,15 @@ import random
 
 RATING_QUALITIES = ("A", "B", "C", "D", "E", "F")
 
+GK = ["goalkeeping", "composure", "reflexes", "positioning"]
+CB = ["defending", "physical", "heading", "pace", "composure"]
+RB = LB = ["defending", "pace", "dribbling", "crossing", "physical", "work rate"]
+CM = ["passing", "dribbling", "composure", "work rate", "physical"]
+CDM = ["defending", "positioning", "passing", "physical", "work rate"]
+CAM = ["dribbling", "passing", "shooting", "composure", "work rate"]
+ST = CF = ["shooting", "pace", "dribbling", "heading", "composure", "weak foot"]
+RW = LW = ["pace", "dribbling", "crossing", "passing", "shooting", "skill moves"]
+
 
 class Attributes:
     composure: int
@@ -21,7 +30,7 @@ class Attributes:
     work_rate: int
     overall: int
 
-    def __init__(self, rating_points):
+    def __init__(self, position, rating_points):
         range_points = self.range_quality(rating_points)
 
         self.composure = random.randint(*range_points)
@@ -38,6 +47,15 @@ class Attributes:
         self.work_rate = random.randint(*range_points)
         self.goalkeeping = random.randint(*range_points)
         self.reflexes = random.randint(*range_points)
+
+        for attr, value in self.__dict__.items():
+            if attr not in globals()[position]:
+                setattr(self, attr, value - random.randint(2, 5))
+                continue
+
+            new_value = value + random.randint(2, 5) if value <= 95 else value
+            setattr(self, attr, new_value)
+
         self.overall = self.calculate_overall()
 
     def calculate_overall(self):

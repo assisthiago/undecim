@@ -5,24 +5,9 @@ from modules import names
 
 FOOTS = ("L", "R")
 
-POSITIONS = (
-    "GK",
-    "CD",
-    "RB",
-    "LB",
-    "CM",
-    "CDM",
-    "CAM",
-    "ST",
-    "RW",
-    "LW",
-)
+POSITIONS = ("GK", "CB", "RB", "LB", "CM", "CDM", "CAM", "ST", "CF", "RW", "LW")
 
-NATIONALITIES = (
-    ["Brazil", "br"],
-    ["Uruguay", "uy"],
-    ["Argentina", "ar"],
-)
+NATIONALITIES = (["Brazil", "br"], ["Uruguay", "uy"], ["Argentina", "ar"])
 
 
 class Player:
@@ -35,7 +20,7 @@ class Player:
     strong_foot: str
     attributes: dict
 
-    def __init__(self):
+    def __init__(self, position: str = None):
         nationality = random.choice(NATIONALITIES)
 
         self.name = names.full(nationality[1])
@@ -43,9 +28,11 @@ class Player:
         self.height = random.randint(160, 200)
         self.weight = random.randint(60, 95)
         self.nationality = nationality[0]
-        self.position = random.choice(POSITIONS)
+        self.position = position if position else random.choice(POSITIONS)
         self.strong_foot = random.choice(FOOTS)
-        self.attributes = Attributes(rating_points=random.choice(RATING_QUALITIES))
+        self.attributes = Attributes(
+            position=self.position, rating_points=random.choice(RATING_QUALITIES)
+        )
 
     def __str__(self):
         return (

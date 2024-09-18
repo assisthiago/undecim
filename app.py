@@ -1,10 +1,10 @@
 import random
 
-from models.player import Player
+from models.team import Team
 from modules import names
 
 # Example usage
 if __name__ == "__main__":
-    player = Player()
+    team = Team()
 
-    print(player)
+    print(team)
